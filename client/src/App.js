@@ -12,10 +12,14 @@ function App() {
     e.preventDefault();       // Page not reload on submitation 
     const res=await fetch("http://localhost:4000/transaction",{
       method:"POST",
-      body:form,
+      body:JSON.stringify(form),
+      headers:{
+        "content-type":"application/json"               // send the data in form of application/json 
+      }
 
     });
-    console.log(res)
+    const data=await res.json();
+    console.log(data)
   }
   return (
     <>
