@@ -1,21 +1,22 @@
 import express from "express";
-import mongoose from "mongoose";
+import database from "./database/mongoDB.js"
 import cors from "cors";
 import bodyParser from "body-parser";
+import TransactionsApi from './routes/TransactionApi.js'
 const PORT = 4000
 const app = express()
 app.use(cors())
 app.use(bodyParser.json())
-await mongoose.connect('mongodb+srv://mohit321:mohit321@cluster0.iwsnmym.mongodb.net/?retryWrites=true&w=majority')
-console.log("MongoDB Connected")
+await database()
 app.get('/', (req, res) => {
     res.send("Hello World")
 });
 
-app.post('/transaction',(req,res)=>{
-    console.log(req.body)
-    res.json({message:"Namaste World"})
-})
-app.listen(PORT, () => { 
+// '/transaction' is the base Url 
+app.use('/transaction',TransactionsApi)
+
+
+
+app.listen(PORT, () => {
     console.log("server is running at http://localhost:4000");
 })
