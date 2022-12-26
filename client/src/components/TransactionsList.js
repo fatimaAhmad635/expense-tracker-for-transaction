@@ -11,8 +11,8 @@ import { Container } from "@mui/system";
 import Edit from "@mui/icons-material/EditSharp";
 import Delete from "@mui/icons-material/DeleteSharp";
 import IconButton from "@mui/material/IconButton";
-
-export default function TransactionsList({ transactions,fetchTransactions }) {
+import dayjs from "dayjs";
+export default function TransactionsList({ transactions,fetchTransactions,setEditTransaction }) {
   const remove=async(_id)=>{
     if(!window.confirm("Are ou Sure")) return;
     const res=await fetch(`http://localhost:4000/transaction/${_id}`,{
@@ -23,6 +23,10 @@ export default function TransactionsList({ transactions,fetchTransactions }) {
       window.alert("Deleted Successfully")
     }
   }
+  const formatDate=(date)=>{
+    return dayjs(date).format("DD/MMM/YYYY")
+  }
+  
   return (
     <Container>
       <Typography sx={{ marginTop: 10 }} variant="h6">
@@ -45,9 +49,9 @@ export default function TransactionsList({ transactions,fetchTransactions }) {
                   {row.amount}
                 </TableCell>
                 <TableCell align="center">{row.description}</TableCell>
-                <TableCell align="center">{row.date}</TableCell>
+                <TableCell align="center">{formatDate(row.date)}</TableCell>
                 <TableCell align="center">
-                  <IconButton color="primary" component="label">
+                  <IconButton color="primary" component="label" onClick={()=>setEditTransaction(row)}>
                     <Edit />
                   </IconButton>
                   <IconButton color="warning" component="label" onClick={()=>{remove(row._id)}}>
