@@ -1,7 +1,5 @@
 import { useState } from "react";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -9,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import { Container } from "@mui/material";
 
 const InitialForm = {
   amount: "",
@@ -45,6 +43,7 @@ export default function TransactionForm({fetchTransactions}) {
     }
   };
   return (
+    <Container>
     <Card sx={{ minWidth: 275, marginTop: 10 }}>
       <CardContent>
         <Typography variant="h6">Add New Transaction</Typography>
@@ -86,5 +85,6 @@ export default function TransactionForm({fetchTransactions}) {
         </form>
       </CardContent>
     </Card>
+    </Container>
   );
 }
