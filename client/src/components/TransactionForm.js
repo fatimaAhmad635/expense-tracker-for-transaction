@@ -46,7 +46,7 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
     }
   }
   const Create = async () => {
-    const res = await fetch("http://localhost:4000/transaction", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/transaction`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
@@ -56,7 +56,7 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
     return reload(res);
   };
   const Update = async () => {
-    const res = await fetch(`http://localhost:4000/transaction/${editTransaction._id}`, {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/transaction/${editTransaction._id}`, {
       method: "PATCH",
       body: JSON.stringify(form),
       headers: {
