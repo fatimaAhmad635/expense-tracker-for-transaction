@@ -3,6 +3,7 @@ import database from "./database/mongoDB.js"
 import cors from "cors";
 import bodyParser from "body-parser";
 import TransactionsApi from './routes/TransactionApi.js'
+import AuthApi from './routes/AuthApi.js'
 const PORT = 4000
 const app = express()
 app.use(cors())
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 // '/transaction' is the base Url 
 app.use('/transaction',TransactionsApi)
 
+app.use('/auth',AuthApi)
 
 
 app.listen(PORT, () => {
