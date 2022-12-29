@@ -36,15 +36,13 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
     e.preventDefault(); // Page not reload on submitation
 
     const res = editTransaction.amount === undefined ? Create() : Update();
-
-    
   };
-  const reload=(res)=>{
+  const reload = (res) => {
     if (res.ok) {
       setForm(InitialForm);
       fetchTransactions(); // Refresh everytime when data is added
     }
-  }
+  };
   const Create = async () => {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/transaction`, {
       method: "POST",
@@ -102,14 +100,14 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
                 )}
               />
             </LocalizationProvider>
-            {editTransaction.amount !== undefined && (
-              <Button type="submit" variant="contained">
-                Update
-              </Button>
-            )}
             {editTransaction.amount === undefined && (
               <Button type="submit" variant="contained">
                 Submit
+              </Button>
+            )}
+            {editTransaction.amount !== undefined && (
+              <Button type="submit" variant="contained">
+                Update
               </Button>
             )}
           </form>

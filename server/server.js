@@ -4,6 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import TransactionsApi from './routes/TransactionApi.js'
 import AuthApi from './routes/AuthApi.js'
+import UserApi from './routes/UserApi.js'
 import passport from "passport";
 import passportConfig from "./config/passport.js";
 import * as dotenv from 'dotenv';
@@ -24,6 +25,7 @@ app.use('/transaction',TransactionsApi)
 
 app.use('/auth',AuthApi)
 
+app.use('/user',UserApi)
 
 app.listen(PORT, () => {
     console.log("server is running at http://localhost:4000");
