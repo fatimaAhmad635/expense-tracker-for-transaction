@@ -24,7 +24,6 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
     if (editTransaction.amount !== undefined) {
       setForm(editTransaction);
     }
-    console.log(editTransaction);
   }, [editTransaction]);
 
   const handleDate = (newValue) => {

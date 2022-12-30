@@ -1,55 +1,10 @@
 import { Router } from "express";
-import User from "../models/User.js";
-import bcrypt from "bcrypt";
-import jwt from 'jsonwebtoken'
+import * as AuthController from '../controller/AuthController.js';
 const router = Router();
 
-router.post("/register", async (req, res) => {
-  // get all form data
-  const { email, password, firstName, lastName } = req.body;
+// Create new user and check also is user is already exist or not
+router.post("/register",AuthController.register );
 
-  // check if user exist or not
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    res.status(406).json({ message: "User already exists." });
-    return;
-  }
-
-  // hash the password
-  const salt = await bcrypt.genSaltSync(10);
-  const hashedPassword = await bcrypt.hashSync(password, salt);
-  console.log(hashedPassword);
-
-  const user = await User({ email, password: hashedPassword, firstName, lastName });
-  // store user
-  await user.save();
-  res.status(201).json({ message: "user created" });
-});
-
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  //   User exist or not
-  const user = await User.findOne({ email });
-  if (!user) {
-    res.status(406).json({ message: "Credentials Not Found" });
-    return;
-  }
-
-  // check whether password is or not
-  const matched = await bcrypt.compare(password, user.password);
-  if (!matched) {
-    res.status(406).json({ message: "Credentials Not Found" });
-    return;
-  }
-
-  // create jwt token
-  const payload={
-    username:email,
-    _id:user._id
-  }
-  const token=jwt.sign(payload,process.env.JWT_SECRET)
-  console.log(token);
-  res.json({message:"successfully logged in",token,user})
-});
+// Create jwt token for authenticated user (user is exist or not and password is matched with hashed password or not)
+router.post("/login",AuthController.login );
 export default router;
