@@ -1,11 +1,9 @@
 import { Router } from "express";
-import passport from "passport";
-import Transaction from "../models/Transaction.js ";
 import * as TransactionController from "../controller/TransactionController.js";
 const router = Router();
 
 // sending json response to /transaction  when http GET request to given URL
-router.get("/", passport.authenticate("jwt", { session: false }), TransactionController.index);
+router.get("/",TransactionController.index);
 
 // create transaction using /transaction url
 router.post("/", TransactionController.create);

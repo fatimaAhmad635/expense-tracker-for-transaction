@@ -3,17 +3,19 @@ import Transaction from "../models/Transaction.js ";
 
 // sending json response to /transaction  when http GET request to given URL
 export const index=async (req, res) => {
-    const transaction = await Transaction.find({}).sort({ createdAt: -1 });
+    const transaction = await Transaction.find({user_id:req.user._id}).sort({ createdAt: -1 });
     res.json({ data: transaction });
   }
 
 // create transaction using /transaction url
 export const create=async (req, res) => {
-    const { amount, description, date } = req.body;
+    const { amount, description, date,category_id } = req.body;
     const transaction = new Transaction({
       amount,
       description,
       date,
+      user_id:req.user._id,
+      category_id,
     });
     // transaction save in mongoDB
     await transaction.save();
