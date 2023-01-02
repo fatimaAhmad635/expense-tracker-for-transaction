@@ -79,7 +79,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
 
   function getCategoryNameById() {
     return (
-      categories.find((category) => category._id === form.category_id) ?? ""
+      categories.find((category) => category._id === form.category_id) ?? null
     );
   }
 
@@ -123,6 +123,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
           </LocalizationProvider>
 
           <Autocomplete
+            isOptionEqualToValue={(option, value) => option._id === value._id}
             value={getCategoryNameById()}
             onChange={(event, newValue) => {
               setForm({ ...form, category_id: newValue._id });

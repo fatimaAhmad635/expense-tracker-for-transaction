@@ -70,7 +70,7 @@ export default function TransactionsList({
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell align="center" component="th" scope="row">
-                    {row.amount}
+                    {row.amount}{console.log(row.category_id)}{console.log(row._id)}
                   </TableCell>
                   <TableCell align="center">{row.description}</TableCell>
                   <TableCell align="center">
