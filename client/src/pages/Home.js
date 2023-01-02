@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import TransactionForm from "../components/TransactionForm.js";
 import TransactionsList from "../components/TransactionsList.js";
 import Cookies from 'js-cookie'
+import TransactionChart from "../components/TransactionChart.js";
 const Home = () => {
   const [transactions, setTransactions] = useState([]);
   const [editTransaction, setEditTransaction] = useState({});
@@ -23,9 +24,10 @@ const Home = () => {
   };
   return (
     <>
+      <TransactionChart data={transactions}/>
       <TransactionForm fetchTransactions={fetchTransactions} editTransaction={editTransaction} />
       <TransactionsList
-        transactions={transactions}
+        data={transactions}
         fetchTransactions={fetchTransactions}
         setEditTransaction={setEditTransaction}
       />

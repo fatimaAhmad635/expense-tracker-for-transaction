@@ -14,7 +14,7 @@ import Edit from "@mui/icons-material/EditSharp";
 import Delete from "@mui/icons-material/DeleteSharp";
 import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
-export default function TransactionsList({ transactions,fetchTransactions,setEditTransaction }) {
+export default function TransactionsList({ data,fetchTransactions,setEditTransaction }) {
   const token=Cookies.get('token')
   const remove=async(_id)=>{
     if(!window.confirm("Are you Sure?")) return;
@@ -54,24 +54,29 @@ export default function TransactionsList({ transactions,fetchTransactions,setEdi
             </TableRow>
           </TableHead>
           <TableBody>
-            {transactions.map((row) => (
-              <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                <TableCell align="center" component="th" scope="row">
-                  {row.amount}
-                </TableCell>
-                <TableCell align="center">{row.description}</TableCell>
-                <TableCell align="center">{categoryName(row.category_id)}</TableCell>
-                <TableCell align="center">{formatDate(row.date)}</TableCell>
-                <TableCell align="center">
-                  <IconButton color="primary" component="label" onClick={()=>setEditTransaction(row)}>
-                    <Edit />
-                  </IconButton>
-                  <IconButton color="warning" component="label" onClick={()=>{remove(row._id)}}>
-                    <Delete />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+            {
+              data.map(month=>(
+                month.transactions.map((row) => (
+                  <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell align="center" component="th" scope="row">
+                      {row.amount}
+                    </TableCell>
+                    <TableCell align="center">{row.description}</TableCell>
+                    <TableCell align="center">{categoryName(row.category_id)}</TableCell>
+                    <TableCell align="center">{formatDate(row.date)}</TableCell>
+                    <TableCell align="center">
+                      <IconButton color="primary" component="label" onClick={()=>setEditTransaction(row)}>
+                        <Edit />
+                      </IconButton>
+                      <IconButton color="warning" component="label" onClick={()=>{remove(row._id)}}>
+                        <Delete />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ))
+            }
+            
           </TableBody>
         </Table>
       </TableContainer>
