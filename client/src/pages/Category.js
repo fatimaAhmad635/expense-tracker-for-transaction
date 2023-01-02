@@ -1,43 +1,48 @@
-import * as React from "react";
-import { useSelector,useDispatch } from "react-redux";
+import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
+import EditSharpIcon from "@mui/icons-material/EditSharp";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
-import { Container } from "@mui/system";
-import Edit from "@mui/icons-material/EditSharp";
-import Delete from "@mui/icons-material/DeleteSharp";
-import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 import Cookies from "js-cookie";
-import {setUser} from '../store/auth.js'
+import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CategoryForm from "../components/CategoryForm.js";
+import { setUser } from "../store/auth.js";
 
 export default function Category() {
   const token = Cookies.get("token");
   const user = useSelector((state) => state.auth.user);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
+  const [editCategory, setEditCategory] = React.useState({});
 
-  const [editCategory,setEditCategory]=React.useState({});
-  function setEdit(category){
+  function setEdit(category) {
     setEditCategory(category);
   }
 
-  const remove = async (id) => {
+  async function remove(id) {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/category/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    if(res.ok){
-      const _user={...user,categories:user.categories.filter(cat=>cat._id!=id)}
-      dispatch(setUser({user:_user}));
+
+    if (res.ok) {
+      const _user = {
+        ...user,
+        categories: user.categories.filter((cat) => cat._id != id),
+      };
+      dispatch(setUser({ user: _user }));
     }
-  };
+  }
+
   return (
     <Container>
       <CategoryForm editCategory={editCategory} />
@@ -55,7 +60,10 @@ export default function Category() {
           </TableHead>
           <TableBody>
             {user.categories.map((row) => (
-              <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+              <TableRow
+                key={row._id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
                 <TableCell align="center" component="th" scope="row">
                   {row.label}
                 </TableCell>
@@ -64,16 +72,17 @@ export default function Category() {
                   <IconButton
                     color="primary"
                     component="label"
-                    onClick={()=>setEdit(row)}
+                    onClick={() => setEdit(row)}
                   >
-                    <Edit />
+                    <EditSharpIcon />
                   </IconButton>
+
                   <IconButton
                     color="warning"
                     component="label"
-                      onClick={()=>{remove(row._id)}}
+                    onClick={() => remove(row._id)}
                   >
-                    <Delete />
+                    <DeleteSharpIcon />
                   </IconButton>
                 </TableCell>
               </TableRow>

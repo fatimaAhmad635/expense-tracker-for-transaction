@@ -1,20 +1,25 @@
-import * as React from "react";
-import Paper from "@mui/material/Paper";
 import { scaleBand } from "@devexpress/dx-chart-core";
-import { ArgumentScale } from "@devexpress/dx-react-chart";
 import {
-  Chart,
-  BarSeries,
+  Animation,
+  ArgumentScale,
+  EventTracker,
+} from "@devexpress/dx-react-chart";
+import {
   ArgumentAxis,
-  ValueAxis,
+  BarSeries,
+  Chart,
   Tooltip,
+  ValueAxis,
 } from "@devexpress/dx-react-chart-material-ui";
-import { Animation, EventTracker } from "@devexpress/dx-react-chart";
-import dayjs from "dayjs";
 
-const TransactionChart = ({ data }) => {
+import Paper from "@mui/material/Paper";
+import dayjs from "dayjs";
+import * as React from "react";
+export default function TransactionChart({ data }) {
   const chartData = data.map((item) => {
-    item.month = dayjs().month(item._id-1).format("MMMM");
+    item.month = dayjs()
+      .month(item._id - 1)
+      .format("MMMM");
     return item;
   });
   return (
@@ -30,6 +35,4 @@ const TransactionChart = ({ data }) => {
       </Chart>
     </Paper>
   );
-};
-
-export default TransactionChart;
+}

@@ -1,14 +1,14 @@
-import App from "./App";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import Register from "./pages/Register";
 import { createBrowserRouter } from "react-router-dom";
-import CheckAuth from "./utils/CheckAuth.js";
-import Guest from "./utils/Guest.js";
+import App from "./App";
 import Category from "./pages/Category";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import CheckAuth from "./utils/CheckAuth";
+import Guest from "./utils/Guest";
+
 export default createBrowserRouter([
   {
-    path: "/",
     element: <App />,
     children: [
       {
@@ -39,7 +39,7 @@ export default createBrowserRouter([
         path: "/category",
         element: (
           <CheckAuth>
-            <Category/>
+            <Category />
           </CheckAuth>
         ),
       },
