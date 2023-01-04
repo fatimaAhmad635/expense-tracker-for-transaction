@@ -12,7 +12,7 @@ function App() {
 
   async function fetchUser() {
     setIsLoading(true);
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/user`, {
+    const res = await fetch(`http://localhost:4000/user`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
