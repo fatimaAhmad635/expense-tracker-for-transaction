@@ -6,7 +6,7 @@ import passport from "passport";
 import passportConfig from "./config/passport.js";
 import connect from "./database/mongdb.js";
 import routes from "./routes/index.js";
-const path = require("path");
+import path from "path";
 dotenv.config();
 
 const PORT = process.env.PORT || 4000;
