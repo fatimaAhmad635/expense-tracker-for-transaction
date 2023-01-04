@@ -22,10 +22,11 @@ app.get("/", (req, res) => {
 app.use("/", routes);
 
 await connect();
-app.use(express.static(path.join(__dirname, "../client/build")));
+const __dirname1=path.resolve();
+app.use(express.static(path.join(__dirname1, "./client/build")));
 
 app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname1, "./client/build/index.html"));
 });
 app.listen(PORT, () => {
   console.log(`Server is running at ${PORT}`);
