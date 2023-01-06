@@ -12,7 +12,7 @@ function App() {
 
   async function fetchUser() {
     setIsLoading(true);
-    const res = await fetch(`http://localhost:4000/user`, {
+    const res = await fetch(`${process.env.BASE_URL}/user`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
