@@ -27,7 +27,7 @@ export default function Category() {
   }
 
   async function remove(id) {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/category/${id}`, {
+    const res = await fetch(`${process.env.REACT_APP_BASE_URL}/category/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

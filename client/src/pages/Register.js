@@ -23,7 +23,7 @@ export default function Register() {
       password: data.get("password"),
     };
 
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
+    const res = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/register`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
