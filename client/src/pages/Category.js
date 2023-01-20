@@ -60,28 +60,17 @@ export default function Category() {
           </TableHead>
           <TableBody>
             {user.categories.map((row) => (
-              <TableRow
-                key={row._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
+              <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                 <TableCell align="center" component="th" scope="row">
                   {row.label}
                 </TableCell>
                 <TableCell align="center">{row.icon}</TableCell>
                 <TableCell align="center">
-                  <IconButton
-                    color="primary"
-                    component="label"
-                    onClick={() => setEdit(row)}
-                  >
+                  <IconButton color="primary" component="label" onClick={() => setEdit(row)}>
                     <EditSharpIcon />
                   </IconButton>
 
-                  <IconButton
-                    color="warning"
-                    component="label"
-                    onClick={() => remove(row._id)}
-                  >
+                  <IconButton color="warning" component="label" onClick={() => remove(row._id)}>
                     <DeleteSharpIcon />
                   </IconButton>
                 </TableCell>

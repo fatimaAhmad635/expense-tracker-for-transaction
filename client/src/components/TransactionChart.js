@@ -1,9 +1,5 @@
 import { scaleBand } from "@devexpress/dx-chart-core";
-import {
-  Animation,
-  ArgumentScale,
-  EventTracker,
-} from "@devexpress/dx-react-chart";
+import { Animation, ArgumentScale, EventTracker } from "@devexpress/dx-react-chart";
 import {
   ArgumentAxis,
   BarSeries,

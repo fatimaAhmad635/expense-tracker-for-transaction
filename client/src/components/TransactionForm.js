@@ -78,9 +78,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
   }
 
   function getCategoryNameById() {
-    return (
-      categories.find((category) => category._id === form.category_id) ?? null
-    );
+    return categories.find((category) => category._id === form.category_id) ?? null;
   }
 
   return (
@@ -88,7 +86,6 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
       <CardContent>
         <Typography variant="h6">Add New Transaction</Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex" }}>
-          
           <TextField
             sx={{ marginRight: 5 }}
             id="outlined-basic"
@@ -131,9 +128,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
             id="controllable-states-demo"
             options={categories}
             sx={{ width: 200, marginRight: 5 }}
-            renderInput={(params) => (
-              <TextField {...params} size="small" label="Category" />
-            )}
+            renderInput={(params) => <TextField {...params} size="small" label="Category" />}
           />
 
           {editTransaction.amount !== undefined && (

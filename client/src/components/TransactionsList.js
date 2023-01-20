@@ -13,11 +13,7 @@ import dayjs from "dayjs";
 import Cookies from "js-cookie";
 import * as React from "react";
 import { useSelector } from "react-redux";
-export default function TransactionsList({
-  data,
-  fetchTransctions,
-  setEditTransaction,
-}) {
+export default function TransactionsList({ data, fetchTransctions, setEditTransaction }) {
   const user = useSelector((state) => state.auth.user);
   function categoryName(id) {
     const category = user.categories.find((category) => category._id === id);
@@ -27,15 +23,12 @@ export default function TransactionsList({
   async function remove(_id) {
     const token = Cookies.get("token");
     if (!window.confirm("Are you sure")) return;
-    const res = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/transaction/${_id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await fetch(`${process.env.REACT_APP_BASE_URL}/transaction/${_id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (res.ok) {
       fetchTransctions();
       window.alert("Deleted Successfully");
@@ -65,17 +58,12 @@ export default function TransactionsList({
           <TableBody>
             {data.map((month) =>
               month.transactions.map((row) => (
-                <TableRow
-                  key={row._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
+                <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell align="center" component="th" scope="row">
                     {row.amount}
                   </TableCell>
                   <TableCell align="center">{row.description}</TableCell>
-                  <TableCell align="center">
-                    {categoryName(row.category_id)}
-                  </TableCell>
+                  <TableCell align="center">{categoryName(row.category_id)}</TableCell>
                   <TableCell align="center">{formatDate(row.date)}</TableCell>
                   <TableCell align="center">
                     <IconButton
@@ -86,11 +74,7 @@ export default function TransactionsList({
                       <EditSharpIcon />
                     </IconButton>
 
-                    <IconButton
-                      color="warning"
-                      component="label"
-                      onClick={() => remove(row._id)}
-                    >
+                    <IconButton color="warning" component="label" onClick={() => remove(row._id)}>
                       <DeleteSharpIcon />
                     </IconButton>
                   </TableCell>

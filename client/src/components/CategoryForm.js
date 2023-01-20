@@ -32,10 +32,6 @@ export default function CategoryForm({ editCategory }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleDate(newValue) {
-    setForm({ ...form, date: newValue });
-  }
-
   async function handleSubmit(e) {
     e.preventDefault();
     editCategory._id === undefined ? create() : update();
@@ -65,31 +61,22 @@ export default function CategoryForm({ editCategory }) {
   }
 
   async function update() {
-    const res = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/category/${editCategory._id}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify(form),
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await fetch(`${process.env.REACT_APP_BASE_URL}/category/${editCategory._id}`, {
+      method: "PATCH",
+      body: JSON.stringify(form),
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const _user = {
       ...user,
       categories: user.categories.map((cat) =>
+        // eslint-disable-next-line
         cat._id == editCategory._id ? form : cat
       ),
     };
     reload(res, _user);
-  }
-
-  function getCategoryNameById() {
-    return (
-      user.categories.find((category) => category._id === form.category_id) ??
-      ""
-    );
   }
 
   return (
@@ -117,9 +104,7 @@ export default function CategoryForm({ editCategory }) {
             id="icons"
             options={icons}
             sx={{ width: 200, marginRight: 5 }}
-            renderInput={(params) => (
-              <TextField {...params} size="small" label="Icon" />
-            )}
+            renderInput={(params) => <TextField {...params} size="small" label="Icon" />}
           />
 
           {editCategory._id !== undefined && (
