@@ -110,7 +110,7 @@ export default function CategoryForm({ editCategory }) {
           />
 
           <Autocomplete
-            value={getCategoryNameById()}
+            value={form.icon}
             onChange={(event, newValue) => {
               setForm({ ...form, icon: newValue });
             }}
