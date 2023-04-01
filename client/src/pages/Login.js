@@ -36,7 +36,7 @@ export default function Login() {
 
     if (res.ok) {
       Cookie.set("token", token);
-      dispatch(setUser(user));
+      await dispatch(setUser(user));
       navigate("/");
     }
   };
