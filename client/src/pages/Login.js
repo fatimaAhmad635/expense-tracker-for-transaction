@@ -12,6 +12,8 @@ import * as React from "react";
 import { useDispatch } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { setUser } from "../store/auth.js";
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -39,6 +41,9 @@ export default function Login() {
       await dispatch(setUser(user));
       navigate("/");
     }
+    else{
+      toast.error("Email or Password are Incorrect");
+    }
   };
 
   return (
@@ -54,6 +59,10 @@ export default function Login() {
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
+        <ToastContainer
+        position="top-center"
+        theme="light"
+        />
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
