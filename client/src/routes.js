@@ -1,3 +1,4 @@
+// Import necessary modules and components from React Router and your application
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Category from "./pages/Category";
@@ -7,39 +8,40 @@ import Register from "./pages/Register";
 import CheckAuth from "./utils/CheckAuth";
 import Guest from "./utils/Guest";
 
+// Create and export a BrowserRouter configuration
 export default createBrowserRouter([
   {
-    element: <App />,
+    element: <App />, // The top-level component for your application
     children: [
       {
-        path: "/",
+        path: "/", // Define the route path
         element: (
           <CheckAuth>
-            <Home />
+            <Home /> {/* Render the Home component with authentication check */}
           </CheckAuth>
         ),
       },
       {
-        path: "/login",
+        path: "/login", // Define the route path for login
         element: (
           <Guest>
-            <Login />
+            <Login /> {/* Render the Login component for guests */}
           </Guest>
         ),
       },
       {
-        path: "/register",
+        path: "/register", // Define the route path for registration
         element: (
           <Guest>
-            <Register />
+            <Register /> {/* Render the Register component for guests */}
           </Guest>
         ),
       },
       {
-        path: "/category",
+        path: "/category", // Define the route path for the category page
         element: (
           <CheckAuth>
-            <Category />
+            <Category /> {/* Render the Category component with authentication check */}
           </CheckAuth>
         ),
       },
