@@ -1,3 +1,4 @@
+// Import necessary modules and libraries from React and Material-UI
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -12,12 +13,15 @@ import * as React from "react";
 import { useDispatch } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { setUser } from "../store/auth.js";
-import {ToastContainer,toast} from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// A React component for the Login page
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -26,6 +30,7 @@ export default function Login() {
       password: data.get("password"),
     };
 
+    // Send a POST request to the server for user login
     const res = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
       method: "POST",
       body: JSON.stringify(form),
@@ -34,18 +39,25 @@ export default function Login() {
       },
     });
 
+    // Parse the response data
     const { token, user } = await res.json();
 
     if (res.ok) {
+      // Set the JWT token in cookies
       Cookie.set("token", token);
+
+      // Update user data in Redux store
       await dispatch(setUser(user));
+
+      // Navigate to the home page
       navigate("/");
-    }
-    else{
+    } else {
+      // Display an error toast if login fails
       toast.error("Email or Password are Incorrect");
     }
   };
 
+  // Render the Login page
   return (
     <Container>
       <Box
@@ -56,17 +68,25 @@ export default function Login() {
           alignItems: "center",
         }}
       >
+        {/* Avatar icon */}
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
+
+        {/* Toast notifications */}
         <ToastContainer
-        position="top-center"
-        theme="light"
+          position="top-center"
+          theme="light"
         />
+
+        {/* Title */}
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+
+        {/* Login form */}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          {/* Email input */}
           <TextField
             margin="normal"
             required
@@ -77,6 +97,8 @@ export default function Login() {
             autoComplete="email"
             autoFocus
           />
+
+          {/* Password input */}
           <TextField
             margin="normal"
             required
@@ -87,9 +109,13 @@ export default function Login() {
             id="password"
             autoComplete="current-password"
           />
+
+          {/* Sign In button */}
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign In
           </Button>
+
+          {/* Link to Sign Up */}
           <Grid container>
             <Grid item>
               <RouterLink to="/register">
