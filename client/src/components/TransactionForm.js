@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
+// Initial form state for creating or editing transactions
 const InitialForm = {
   amount: 0,
   description: "",
@@ -19,30 +20,41 @@ const InitialForm = {
   category_id: "",
 };
 
+// TransactionForm component for adding or editing transactions
 export default function TransactionForm({ fetchTransctions, editTransaction }) {
+  // Get user categories from Redux store
   const { categories } = useSelector((state) => state.auth.user);
+
+  // Get user token from cookies
   const token = Cookies.get("token");
+
+  // State to manage form data
   const [form, setForm] = useState(InitialForm);
 
+  // Update form data when editing a transaction
   useEffect(() => {
     if (editTransaction.amount !== undefined) {
       setForm(editTransaction);
     }
   }, [editTransaction]);
 
+  // Handle changes in form input fields
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
+  // Handle changes in the transaction date
   function handleDate(newValue) {
     setForm({ ...form, date: newValue });
   }
 
+  // Handle form submission (create or update transaction)
   async function handleSubmit(e) {
     e.preventDefault();
     editTransaction.amount === undefined ? create() : update();
   }
 
+  // Helper function to reload data after creating or updating a transaction
   function reload(res) {
     if (res.ok) {
       setForm(InitialForm);
@@ -50,6 +62,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
     }
   }
 
+  // Create a new transaction
   async function create() {
     const res = await fetch(`${process.env.REACT_APP_BASE_URL}/transaction`, {
       method: "POST",
@@ -62,6 +75,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
     reload(res);
   }
 
+  // Update an existing transaction
   async function update() {
     const res = await fetch(
       `${process.env.REACT_APP_BASE_URL}/transaction/${editTransaction._id}`,
@@ -77,6 +91,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
     reload(res);
   }
 
+  // Helper function to get the category name by its ID
   function getCategoryNameById() {
     return categories.find((category) => category._id === form.category_id) ?? null;
   }
@@ -86,6 +101,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
       <CardContent>
         <Typography variant="h6">Add New Transaction</Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex" }}>
+          {/* Input field for transaction amount */}
           <TextField
             sx={{ marginRight: 5 }}
             id="outlined-basic"
@@ -97,6 +113,8 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
             value={form.amount}
             onChange={handleChange}
           />
+
+          {/* Input field for transaction description */}
           <TextField
             sx={{ marginRight: 5 }}
             id="outlined-basic"
@@ -107,6 +125,8 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
             value={form.description}
             onChange={handleChange}
           />
+
+          {/* Date picker for transaction date */}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
               label="Transaction Date"
@@ -119,6 +139,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
             />
           </LocalizationProvider>
 
+          {/* Autocomplete for selecting transaction category */}
           <Autocomplete
             isOptionEqualToValue={(option, value) => option._id === value._id}
             value={getCategoryNameById()}
@@ -131,6 +152,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
             renderInput={(params) => <TextField {...params} size="small" label="Category" />}
           />
 
+          {/* Submit button (Update or Submit) */}
           {editTransaction.amount !== undefined && (
             <Button type="submit" variant="secondary">
               Update

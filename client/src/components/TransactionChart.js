@@ -11,22 +11,41 @@ import {
 import Paper from "@mui/material/Paper";
 import dayjs from "dayjs";
 import * as React from "react";
+
+// TransactionChart component that renders a bar chart
 export default function TransactionChart({ data }) {
+  // Map transaction data to include a 'month' property based on '_id'
   const chartData = data.map((item) => {
     item.month = dayjs()
       .month(item._id - 1)
       .format("MMMM");
     return item;
   });
+
   return (
+    // Render a Material-UI Paper component to provide a background
     <Paper sx={{ marginTop: 5 }}>
+      {/* Render the chart */}
       <Chart data={chartData}>
+        {/* Configure the argument scale */}
         <ArgumentScale factory={scaleBand} />
+        
+        {/* Render the argument axis (X-axis) */}
         <ArgumentAxis />
+        
+        {/* Render the value axis (Y-axis) */}
         <ValueAxis />
+        
+        {/* Render the bar series for expenses */}
         <BarSeries valueField="totalExpenses" argumentField="month" />
+        
+        {/* Add animation to the chart */}
         <Animation />
+        
+        {/* Enable event tracking (e.g., hover interactions) */}
         <EventTracker />
+        
+        {/* Render tooltips for data points */}
         <Tooltip />
       </Chart>
     </Paper>

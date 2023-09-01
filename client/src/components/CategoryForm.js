@@ -1,3 +1,4 @@
+// Import necessary modules and components from Material-UI and React
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -9,34 +10,49 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/auth.js";
+
+// Define an initial form state
 const InitialForm = {
   label: "",
   icon: "",
 };
 
+// Define available icons
 const icons = ["User"];
 
+// React component for managing category creation and update
 export default function CategoryForm({ editCategory }) {
+  // Get user data from the Redux store
   const user = useSelector((state) => state.auth.user);
+
+  // Get the dispatch function to dispatch actions to the Redux store
   const dispatch = useDispatch();
+
+  // Get the authentication token from cookies
   const token = Cookies.get("token");
+
+  // State to manage the form data
   const [form, setForm] = useState(InitialForm);
 
+  // Update the form data when editing an existing category
   useEffect(() => {
     if (editCategory._id !== undefined) {
       setForm(editCategory);
     }
   }, [editCategory]);
 
+  // Handle form input changes
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
+  // Handle form submission for creating or updating a category
   async function handleSubmit(e) {
     e.preventDefault();
     editCategory._id === undefined ? create() : update();
   }
 
+  // Function to reload user data and update the Redux store
   function reload(res, _user) {
     if (res.ok) {
       dispatch(setUser({ user: _user }));
@@ -44,6 +60,7 @@ export default function CategoryForm({ editCategory }) {
     }
   }
 
+  // Create a new category
   async function create() {
     const res = await fetch(`${process.env.REACT_APP_BASE_URL}/category`, {
       method: "POST",
@@ -60,6 +77,7 @@ export default function CategoryForm({ editCategory }) {
     reload(res, _user);
   }
 
+  // Update an existing category
   async function update() {
     const res = await fetch(`${process.env.REACT_APP_BASE_URL}/category/${editCategory._id}`, {
       method: "PATCH",
@@ -79,10 +97,11 @@ export default function CategoryForm({ editCategory }) {
     reload(res, _user);
   }
 
+  // Render the category form
   return (
     <Card sx={{ minWidth: 275, marginTop: 10 }}>
       <CardContent>
-        <Typography variant="h6">Add New Categeory</Typography>
+        <Typography variant="h6">Add New Category</Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex" }}>
           <TextField
             sx={{ marginRight: 5 }}
