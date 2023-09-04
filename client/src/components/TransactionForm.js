@@ -21,7 +21,7 @@ const InitialForm = {
 };
 
 // TransactionForm component for adding or editing transactions
-export default function TransactionForm({ fetchTransctions, editTransaction }) {
+export default function TransactionForm({ fetchTransactions, editTransaction }) {
   // Get user categories from Redux store
   const { categories } = useSelector((state) => state.auth.user);
 
@@ -58,7 +58,7 @@ export default function TransactionForm({ fetchTransctions, editTransaction }) {
   function reload(res) {
     if (res.ok) {
       setForm(InitialForm);
-      fetchTransctions();
+      fetchTransactions();
     }
   }
 
