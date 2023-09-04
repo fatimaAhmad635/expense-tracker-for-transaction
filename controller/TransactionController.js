@@ -25,7 +25,7 @@ export const index = async (req, res) => {
         totalExpenses: { $sum: "$amount" }, // Calculate the total expenses for each month
       },
     },
-    { $sort: { _id: 1 } }, // Sort the results by month
+    { $sort: { _id: -1 } }, // Sort the results by month
   ]);
 
   // Respond with the aggregated transaction data in JSON format
