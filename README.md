@@ -16,9 +16,18 @@ The design of the project is done using Material-UI.
 ## Installation
 
 To get started with the Expense Tracker project, clone the repository and run the application locally. The project is compatible with modern web browsers and requires Node.js to be installed on your machine.
-
+### Clone the repository from github
 ```bash
-  git clone URL
+git clone url
+```
+### Backend
+```bash
+  cd expense-tracker
+  npm install
+```
+### Frontend
+```bash
+  cd expense-tracker/client
   npm install
 ```
     
