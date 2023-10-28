@@ -52,6 +52,7 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
   async function handleSubmit(e) {
     e.preventDefault();
     editTransaction.amount === undefined ? create() : update();
+    if(editTransaction.amount!==undefined) editTransaction.amount=undefined
   }
 
   // Helper function to reload data after creating or updating a transaction
@@ -154,7 +155,7 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
 
           {/* Submit button (Update or Submit) */}
           {editTransaction.amount !== undefined && (
-            <Button type="submit" variant="secondary">
+            <Button type="submit" variant="contained">
               Update
             </Button>
           )}
