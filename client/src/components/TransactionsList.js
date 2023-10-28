@@ -79,7 +79,7 @@ export default function TransactionsList({ data, fetchTransctions, setEditTransa
               month.transactions.map((row) => (
                 <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell align="center" component="th" scope="row">
-                    {row.amount}
+                    {`$${row.amount}}
                   </TableCell>
                   <TableCell align="center">{row.description}</TableCell>
                   <TableCell align="center">{categoryName(row.category_id)}</TableCell>
