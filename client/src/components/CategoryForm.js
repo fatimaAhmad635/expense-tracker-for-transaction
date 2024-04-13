@@ -46,9 +46,23 @@ export default function CategoryForm({ editCategory }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
+  // Check if category already exist
+  function categoryExist(){
+    const label=form.label.toLowerCase();
+    const categoryExists = user.categories.some(category => category.label.toLowerCase() === label);
+    if (categoryExists) {
+      return true;
+    }
+    return false;
+  }
+
   // Handle form submission for creating or updating a category
   async function handleSubmit(e) {
     e.preventDefault();
+    if(categoryExist()){
+      alert("Category already exists");
+      return;
+    }
     editCategory._id === undefined ? create() : update();
   }
 
