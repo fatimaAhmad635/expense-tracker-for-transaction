@@ -36,10 +36,9 @@ function App() {
   }
 
   // Use useEffect to fetch user information when the component mounts
-  
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);  
 
   // If still loading, display a loading message
