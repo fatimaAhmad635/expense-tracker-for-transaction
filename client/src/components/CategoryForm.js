@@ -64,7 +64,7 @@ export default function CategoryForm({ editCategory }) {
       return;
     }
     editCategory._id === undefined ? create() : update();
-    if(editCategory._id === undefined) editCategory._id = undefined
+    if(editCategory._id !== undefined) editCategory._id = undefined
   }
 
   // Function to reload user data and update the Redux store
