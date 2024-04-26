@@ -11,27 +11,42 @@ export default function Home() {
   // State to store transaction data and the transaction being edited
   const [transactions, setTransactions] = useState([]);
   const [editTransaction, setEditTransaction] = useState({});
-
+  const [categoryFilter, setCategoryFilter] = React.useState('');
   // Use useEffect to fetch transactions when the component mounts
   useEffect(() => {
     fetchTransactions();
   }, []);
+  useEffect(() => {
+    fetchTransactions(categoryFilter);
+    console.log(categoryFilter);
+  }, [categoryFilter]);
 
   // Function to fetch transactions from the server
-  async function fetchTransactions() {
+  async function fetchTransactions(categoryFilter='') {
     // Retrieve the JWT token from cookies
     const token = Cookies.get("token");
 
-    // Send a request to the server to retrieve transaction data
-    const res = await fetch(`${process.env.REACT_APP_BASE_URL}/transaction`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    // Parse the response data and update the state with the transactions
-    const { data } = await res.json();
-    setTransactions(data);
+    if(categoryFilter===''){
+      // Send a request to the server to retrieve transaction data
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/transaction`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { data } = await res.json();
+      setTransactions(data);
+    }
+    else{
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/transaction/${categoryFilter}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // Parse the response data and update the state with the transactions
+      const { data } = await res.json();
+      setTransactions(data);
+    }
+    setCategoryFilter('');
   }
 
   // Render the Home page with various components
@@ -48,6 +63,7 @@ export default function Home() {
         data={transactions}
         fetchTransactions={fetchTransactions}
         setEditTransaction={setEditTransaction}
+        setCategoryFilter={setCategoryFilter}
       />
     </Container>
   );

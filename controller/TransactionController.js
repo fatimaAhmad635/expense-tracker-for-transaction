@@ -31,6 +31,38 @@ export const index = async (req, res) => {
   // Respond with the aggregated transaction data in JSON format
   res.json({ data: demo });
 };
+export const filter = async (req, res) => {
+  // Use the aggregation framework to query the database
+  const demo = await Transaction.aggregate([
+    {
+      // Match transactions belonging to the authenticated user
+      $match: { user_id: req.user._id,
+                category_id: req.params.id
+              },
+    },
+    {
+      // Group transactions by month
+      $group: {
+        _id: { $month: "$date" }, // Group by month extracted from the 'date' field
+        transactions: {
+          $push: {
+            amount: "$amount",
+            description: "$description",
+            date: "$date",
+            type: "$type",
+            _id: "$_id",
+            category_id: "$category_id",
+          },
+        },
+        totalExpenses: { $sum: "$amount" }, // Calculate the total expenses for each month
+      },
+    },
+    { $sort: { _id: -1 } }, // Sort the results by month
+  ]);
+
+  // Respond with the aggregated transaction data in JSON format
+  res.json({ data: demo });
+};
 
 // Controller function for creating a new transaction
 export const create = async (req, res) => {

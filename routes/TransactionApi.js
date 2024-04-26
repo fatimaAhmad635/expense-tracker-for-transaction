@@ -5,6 +5,8 @@ const router = Router();
 // sending json response to /transaction  when http GET request to given URL
 router.get("/", TransactionController.index);
 
+router.get("/:id",TransactionController.filter);
+
 // create transaction using /transaction url
 router.post("/", TransactionController.create);
 
