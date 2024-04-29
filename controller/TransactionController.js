@@ -1,5 +1,5 @@
 import Transaction from "../models/Transaction.js";
-
+import mongoose from "mongoose";
 // Controller function for retrieving transactions
 export const index = async (req, res) => {
   // Use the aggregation framework to query the database
@@ -32,13 +32,15 @@ export const index = async (req, res) => {
   res.json({ data: demo });
 };
 export const filter = async (req, res) => {
+
+  let category_id=mongoose.Types.ObjectId(req.params.id);
+
   // Use the aggregation framework to query the database
   const demo = await Transaction.aggregate([
     {
-      // Match transactions belonging to the authenticated user
-      $match: { user_id: req.user._id,
-                category_id: req.params.id
-              },
+      // Match transactions belonging to the authenticated user and category id
+      $match:{ user_id: req.user._id, category_id: category_id },
+
     },
     {
       // Group transactions by month
