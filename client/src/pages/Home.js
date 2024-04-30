@@ -46,7 +46,6 @@ export default function Home() {
       const { data } = await res.json();
       setTransactions(data);
     }
-    setCategoryFilter('');
   }
 
   // Render the Home page with various components
