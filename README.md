@@ -30,7 +30,23 @@ git clone url
   cd expense-tracker/client
   npm install
 ```
-    
+
+### How to Run Project Locally 
+
+### backend
+```bash
+  cd expense-tracker
+  node server.js
+```
+Server Will start at localhost:4000
+
+### frontend
+```bash
+  cd expense-tracker/client
+  npm start
+```
+client will start at localhost:3000
+
 ## Feedback
 
 If you have any feedback, please reach out to us at bmohit162001@gmail.com
