@@ -20,9 +20,18 @@ import { useSelector } from "react-redux";
 export default function TransactionsList({ data, fetchTransctions, setEditTransaction,setCategoryFilter }) {
   // Get the user data from the Redux store
   const user = useSelector((state) => state.auth.user);
+  const [selectedCategory, setSelectedCategory] = React.useState(null);
 
-  const handleChange = (event) => {
-    setCategoryFilter(event._id);
+  const handleChange = (event,value) => {
+    if (value) {
+      console.log("Selected value: " + value._id);
+      setSelectedCategory(value); // Update local state with selected category
+      setCategoryFilter(value._id); // Update filter
+    } else {
+      console.log("Cleared input");
+      setSelectedCategory(null); // Reset local state when cleared
+      setCategoryFilter(''); // Reset filter
+    }
   };
 
   // Function to retrieve category name by its ID
@@ -69,8 +78,8 @@ export default function TransactionsList({ data, fetchTransctions, setEditTransa
       {/* <Box sx={{ float:'right',marginTop:-4,marginBottom:2 }}> */}
       <Autocomplete
             isOptionEqualToValue={(option, value) => option._id === value._id}
-            value={categoryName(user.categories._id)}
-            onChange={(event, value) => handleChange(value)}
+            value={selectedCategory}
+            onChange={handleChange}
             id="controllable-states-demo"
             options={user.categories}
             sx={{ width: 200, float:'right',marginTop:-4,marginBottom:2}}
