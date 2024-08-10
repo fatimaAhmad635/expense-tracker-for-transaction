@@ -51,12 +51,12 @@ export default function CategoryForm({ editCategory }) {
     const label = form.label.toLowerCase();
     const icon = form.icon.toLowerCase();
     const categoryExists = user.categories.some(category => category.label.toLowerCase() === label);
-    if (label !== ''){
+    if (label === ''){
       alert("Label cannot be empty");
       return true;
     }
     
-    if(icon !== ''){
+    if(icon === ''){
       alert("Icon cannot be empty");
       return true;
     }
