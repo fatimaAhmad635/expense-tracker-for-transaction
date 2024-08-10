@@ -48,19 +48,32 @@ export default function CategoryForm({ editCategory }) {
 
   // Check if category already exist
   function categoryExist(){
-    const label=form.label.toLowerCase();
+    const label = form.label.toLowerCase();
+    const icon = form.icon.toLowerCase();
     const categoryExists = user.categories.some(category => category.label.toLowerCase() === label);
-    if (categoryExists) {
+    if (label !== ''){
+      alert("Label cannot be empty");
       return true;
     }
+    
+    if(icon !== ''){
+      alert("Icon cannot be empty");
+      return true;
+    }
+
+    if (categoryExists) {
+      alert("This category is already in your list. Please enter a unique category name.");
+      return true;
+    }
+
     return false;
+
   }
 
   // Handle form submission for creating or updating a category
   async function handleSubmit(e) {
     e.preventDefault();
     if(categoryExist()){
-      alert("Category already exists");
       return;
     }
     editCategory._id === undefined ? create() : update();
