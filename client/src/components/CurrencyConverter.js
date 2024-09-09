@@ -8,9 +8,24 @@ export default function CurrencyConverter({ transactions }) {
   useEffect(() => {
     // Fetch exchange rates from an external API
     async function fetchExchangeRates() {
-      const res = await fetch("https://api.exchangerate-api.com/v4/latest/PKR");
-      const data = await res.json();
-      setExchangeRates(data.rates);
+      try {
+        const res = await fetch("https://api.exchangerate-api.com/v4/latest/PKR");
+        const data = await res.json();
+
+        // Validate that data.rates is an object
+        if (data && typeof data.rates === 'object') {
+          const sanitizedRates = Object.fromEntries(
+            Object.entries(data.rates).filter(([key, value]) =>
+              typeof key === 'string' && typeof value === 'number'
+            )
+          );
+          setExchangeRates(sanitizedRates);
+        } else {
+          console.error("Invalid data format from API");
+        }
+      } catch (error) {
+        console.error("Failed to fetch exchange rates:", error);
+      }
     }
     fetchExchangeRates();
   }, []);
