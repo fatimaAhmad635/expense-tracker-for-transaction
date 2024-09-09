@@ -1,5 +1,5 @@
-![Screenshot (10)](https://ibb.co/3MP0s6Q.png)
-![Screenshot (12)](https://ibb.co/0f615sP.png)
+![Screenshot (10)](https://user-images.githubusercontent.com/78220157/230329497-bb84f7c0-2f41-48d3-abe7-ba2ecf6d44e0.png)
+![Screenshot (12)](https://user-images.githubusercontent.com/78220157/230329443-8786af8b-ac9c-47df-a906-18399356ba19.png)
 
 
 # Expense Tracker
