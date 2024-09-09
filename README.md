@@ -1,8 +1,10 @@
-![Screenshot 10](https://github.com/fatimaAhmad635/expense-tracker-for-transaction/raw/main/Capture.PNG)
+![Screenshot 13](https://github.com/fatimaAhmad635/expense-tracker-for-transaction/raw/main/Capture.PNG)
 
-![Screenshot 12](https://github.com/fatimaAhmad635/expense-tracker-for-transaction/raw/main/Capture1.PNG)
+![Screenshot 14](https://github.com/fatimaAhmad635/expense-tracker-for-transaction/raw/main/Capture1.PNG)
 
-# Expense Tracker
+
+
+# Expense Trackerr
 
 The application has a user-friendly interface, making it easy for users to add, edit, and delete expenses. Users can categorize their expenses, view them by category, and track their spending over time. Additionally, the project features a login and registration system that uses JSON Web Token (JWT) for authentication, ensuring that only authorized users can access the expense data.
 
@@ -62,8 +64,6 @@ Contributions are always welcome!
 
 If you have any questions or need help getting started, feel free to open an issue on the GitHub repository. We look forward to seeing your contributions!
 
-## Note
-This project belongs to Mohit Email: (bmohit162001@gmail.com)
-We contributed to his project "Expense Tracker For Transaction"
+
 
 
