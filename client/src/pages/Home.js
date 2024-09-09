@@ -1,69 +1,44 @@
-// Import necessary modules and libraries from React and your application
+import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import Cookies from "js-cookie";
-import React, { useEffect, useState } from "react";
 import TransactionChart from "../components/TransactionChart";
 import TransactionForm from "../components/TransactionForm";
 import TransactionsList from "../components/TransactionsList";
+import CurrencyConverter from "../components/CurrencyConverter";
+import NotificationSystem from "../components/NotificationSystem";
 
-// A React component for the Home page
 export default function Home() {
-  // State to store transaction data and the transaction being edited
   const [transactions, setTransactions] = useState([]);
   const [editTransaction, setEditTransaction] = useState({});
-  const [categoryFilter, setCategoryFilter] = React.useState('');
-  // Use useEffect to fetch transactions when the component mounts
+
   useEffect(() => {
     fetchTransactions();
   }, []);
-  useEffect(() => {
-    fetchTransactions(categoryFilter);
-    console.log(categoryFilter);
-  }, [categoryFilter]);
 
-  // Function to fetch transactions from the server
-  async function fetchTransactions(categoryFilter='') {
-    // Retrieve the JWT token from cookies
+  async function fetchTransactions() {
     const token = Cookies.get("token");
 
-    if(categoryFilter===''){
-      // Send a request to the server to retrieve transaction data
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/transaction`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const { data } = await res.json();
-      setTransactions(data);
-    }
-    else{
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/transaction/${categoryFilter}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // Parse the response data and update the state with the transactions
-      const { data } = await res.json();
-      setTransactions(data);
-    }
+    const res = await fetch(`${process.env.REACT_APP_BASE_URL}/transaction`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { data } = await res.json();
+    setTransactions(data);
   }
 
-  // Render the Home page with various components
   return (
     <Container>
-      {/* TransactionChart component to display transaction data */}
       <TransactionChart data={transactions} />
-
-      {/* TransactionForm component for adding/editing transactions */}
       <TransactionForm fetchTransactions={fetchTransactions} editTransaction={editTransaction} />
-
-      {/* TransactionsList component to display a list of transactions */}
       <TransactionsList
         data={transactions}
         fetchTransactions={fetchTransactions}
         setEditTransaction={setEditTransaction}
-        setCategoryFilter={setCategoryFilter}
       />
+      <CurrencyConverter transactions={transactions} />
+      <NotificationSystem transactions={transactions} />
     </Container>
   );
 }
