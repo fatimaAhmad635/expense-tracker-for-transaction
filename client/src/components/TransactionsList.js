@@ -17,7 +17,7 @@ import * as React from "react";
 import { useSelector } from "react-redux";
 
 // Define the TransactionsList component
-export default function TransactionsList({ data, fetchTransactions, setEditTransaction, setCategoryFilter }) {
+export default function TransactionsList({ data, fetchTransactions, setCategoryFilter, setEditTransaction }) {
   // Get the user data from the Redux store
   const user = useSelector((state) => state.auth.user);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
@@ -71,13 +71,13 @@ export default function TransactionsList({ data, fetchTransactions, setEditTrans
       </Typography>
 
       <Autocomplete
-        isOptionEqualToValue={(option, value) => option._id === value._id}
-        value={selectedCategory}
-        onChange={handleChange}
         id="category-filter"
+        isOptionEqualToValue={(option, value) => option._id === value._id}
+        onChange={handleChange}
         options={user.categories}
-        sx={{ width: 200, float: 'right', marginTop: -4, marginBottom: 2 }}
-        renderInput={(params) => <TextField {...params} size="small" label="Category" />}
+        renderInput={(params) => <TextField {...params} label="Category" size="small" />}
+        sx={{ float: "right", marginBottom: 2, marginTop: -4, width: 200 }}
+        value={selectedCategory}
       />
 
       <TableContainer component={Paper}>
