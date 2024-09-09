@@ -79,7 +79,9 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
 
   return (
     <Box sx={{ marginTop: 5, marginBottom: 5 }}>
-      <Typography variant="h6">{editTransaction?._id ? "Edit Transaction" : "Add New Transaction"}</Typography>
+      <Typography variant="h6">
+        {editTransaction && editTransaction._id ? "Update Transaction" : "Add New Transaction"}
+      </Typography>
 
       <form onSubmit={handleSubmit}>
         {/* Amount Input */}
@@ -170,7 +172,7 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
           type="submit"
           variant="contained"
         >
-          {editTransaction?._id ? "Update Transaction" : "Add Transaction"}
+          {editTransaction && editTransaction._id ? "Update Transaction" : "Add Transaction"}
         </Button>
       </form>
     </Box>
