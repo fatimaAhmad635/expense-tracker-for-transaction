@@ -17,12 +17,12 @@ import * as React from "react";
 import { useSelector } from "react-redux";
 
 // Define the TransactionsList component
-export default function TransactionsList({ data, fetchTransactions, setEditTransaction , setCategoryFilter }) {
+export default function TransactionsList({ data, fetchTransctions, setEditTransaction,setCategoryFilter }) {
   // Get the user data from the Redux store
   const user = useSelector((state) => state.auth.user);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
 
-  const handleChange = (event, value) => {
+  const handleChange = (event,value) => {
     if (value) {
       console.log("Selected value: " + value._id);
       setSelectedCategory(value); // Update local state with selected category
@@ -39,11 +39,9 @@ export default function TransactionsList({ data, fetchTransactions, setEditTrans
     const category = user.categories.find((category) => category._id === id);
     return category ? category.label : null;
   }
-
   // Function to remove a transaction
   async function remove(_id) {
     const token = Cookies.get("token");
-
     if (!window.confirm("Are you sure")) return;
 
     const res = await fetch(`${process.env.REACT_APP_BASE_URL}/transaction/${_id}`, {
