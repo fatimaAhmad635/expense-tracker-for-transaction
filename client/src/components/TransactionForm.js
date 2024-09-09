@@ -1,172 +1,175 @@
-import Autocomplete from "@mui/material/Autocomplete";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import React, { useState, useEffect } from "react";
+import { TextField, Button, MenuItem, Box, Typography } from "@mui/material";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 
-// Initial form state for creating or editing transactions
-const InitialForm = {
-  amount: 0,
-  description: "",
-  date: new Date(),
-  category_id: "",
-};
+// Define the available currencies
+const currencies = [
+  { value: "USD", label: "US Dollar" },
+  { value: "EUR", label: "Euro" },
+  { value: "GBP", label: "British Pound" },
+  { value: "PKR", label: "Pakistani Rupee" },
+  { value: "INR", label: "Indian Rupee" },
+  { value: "JPY", label: "Japanese Yen" },
+];
 
-// TransactionForm component for adding or editing transactions
 export default function TransactionForm({ fetchTransactions, editTransaction }) {
-  // Get user categories from Redux store
-  const { categories } = useSelector((state) => state.auth.user);
+  // Initialize form state
+  const [form, setForm] = useState({
+    amount: "",
+    description: "",
+    type: "expense",
+    category_id: "",
+    date: dayjs().format("YYYY-MM-DD"),
+    currency: "USD", // Default currency
+  });
 
-  // Get user token from cookies
-  const token = Cookies.get("token");
-
-  // State to manage form data
-  const [form, setForm] = useState(InitialForm);
-
-  // Update form data when editing a transaction
+  // Update the form when editTransaction is populated
   useEffect(() => {
-    if (editTransaction.amount !== undefined) {
-      setForm(editTransaction);
+    if (editTransaction && Object.keys(editTransaction).length !== 0) {
+      setForm({
+        ...editTransaction,
+        date: dayjs(editTransaction.date).format("YYYY-MM-DD"), // Ensure the date is properly formatted
+      });
     }
   }, [editTransaction]);
 
-  // Handle changes in form input fields
-  function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  }
+  // Handle input changes for form fields
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  // Handle changes in the transaction date
-  function handleDate(newValue) {
-    setForm({ ...form, date: newValue });
-  }
-
-  // Handle form submission (create or update transaction)
-  async function handleSubmit(e) {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    editTransaction.amount === undefined ? create() : update();
-    if(editTransaction.amount!==undefined) editTransaction.amount=undefined
-  }
 
-  // Helper function to reload data after creating or updating a transaction
-  function reload(res) {
-    if (res.ok) {
-      setForm(InitialForm);
-      fetchTransactions();
-    }
-  }
+    const token = Cookies.get("token");
 
-  // Create a new transaction
-  async function create() {
-    const res = await fetch(`${process.env.REACT_APP_BASE_URL}/transaction`, {
-      method: "POST",
-      body: JSON.stringify(form),
+    // If editing an existing transaction, update it; otherwise, create a new one
+    const url = editTransaction && editTransaction._id
+      ? `${process.env.REACT_APP_BASE_URL}/transaction/${editTransaction._id}`
+      : `${process.env.REACT_APP_BASE_URL}/transaction`;
+
+    const method = editTransaction && editTransaction._id ? "PATCH" : "POST";
+
+    const res = await fetch(url, {
+      method,
       headers: {
-        "content-type": "application/json",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify(form),
     });
-    reload(res);
-  }
 
-  // Update an existing transaction
-  async function update() {
-    const res = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/transaction/${editTransaction._id}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify(form),
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    reload(res);
-  }
-
-  // Helper function to get the category name by its ID
-  function getCategoryNameById() {
-    return categories.find((category) => category._id === form.category_id) ?? null;
-  }
+    if (res.ok) {
+      fetchTransactions(); // Refresh the transaction list
+      setForm({
+        amount: "",
+        description: "",
+        type: "expense",
+        category_id: "",
+        date: dayjs().format("YYYY-MM-DD"),
+        currency: "USD", // Reset the form to default values after submission
+      });
+    }
+  };
 
   return (
-    <Card sx={{ minWidth: 275, marginTop: 10 }}>
-      <CardContent>
-        <Typography variant="h6">Add New Transaction</Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex" }}>
-          {/* Input field for transaction amount */}
-          <TextField
-            sx={{ marginRight: 5 }}
-            id="outlined-basic"
-            label="Amount"
-            type="number"
-            size="small"
-            name="amount"
-            variant="outlined"
-            value={form.amount}
-            onChange={handleChange}
-          />
+    <Box sx={{ marginTop: 5, marginBottom: 5 }}>
+      <Typography variant="h6">{editTransaction?._id ? "Edit Transaction" : "Add New Transaction"}</Typography>
 
-          {/* Input field for transaction description */}
-          <TextField
-            sx={{ marginRight: 5 }}
-            id="outlined-basic"
-            label="Description"
-            size="small"
-            name="description"
-            variant="outlined"
-            value={form.description}
-            onChange={handleChange}
-          />
+      <form onSubmit={handleSubmit}>
+        {/* Amount Input */}
+        <TextField
+          label="Amount"
+          name="amount"
+          value={form.amount}
+          onChange={handleChange}
+          type="number"
+          fullWidth
+          required
+          margin="normal"
+        />
 
-          {/* Date picker for transaction date */}
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DesktopDatePicker
-              label="Transaction Date"
-              inputFormat="MM/DD/YYYY"
-              value={form.date}
-              onChange={handleDate}
-              renderInput={(params) => (
-                <TextField sx={{ marginRight: 5 }} size="small" {...params} />
-              )}
-            />
-          </LocalizationProvider>
+        {/* Description Input */}
+        <TextField
+          label="Description"
+          name="description"
+          value={form.description}
+          onChange={handleChange}
+          fullWidth
+          required
+          margin="normal"
+        />
 
-          {/* Autocomplete for selecting transaction category */}
-          <Autocomplete
-            isOptionEqualToValue={(option, value) => option._id === value._id}
-            value={getCategoryNameById()}
-            onChange={(event, newValue) => {
-              setForm({ ...form, category_id: newValue._id });
-            }}
-            id="controllable-states-demo"
-            options={categories}
-            sx={{ width: 200, marginRight: 5 }}
-            renderInput={(params) => <TextField {...params} size="small" label="Category" />}
-          />
+        {/* Type Selector */}
+        <TextField
+          select
+          label="Type"
+          name="type"
+          value={form.type}
+          onChange={handleChange}
+          fullWidth
+          required
+          margin="normal"
+        >
+          <MenuItem value="expense">Expense</MenuItem>
+          <MenuItem value="income">Income</MenuItem>
+          <MenuItem value="transfer">Transfer</MenuItem>
+        </TextField>
 
-          {/* Submit button (Update or Submit) */}
-          {editTransaction.amount !== undefined && (
-            <Button type="submit" variant="contained">
-              Update
-            </Button>
-          )}
+        {/* Category Selector */}
+        <TextField
+          label="Category ID"
+          name="category_id"
+          value={form.category_id}
+          onChange={handleChange}
+          fullWidth
+          required
+          margin="normal"
+        />
 
-          {editTransaction.amount === undefined && (
-            <Button type="submit" variant="contained">
-              Submit
-            </Button>
-          )}
-        </Box>
-      </CardContent>
-    </Card>
+        {/* Date Input */}
+        <TextField
+          label="Date"
+          name="date"
+          type="date"
+          value={form.date}
+          onChange={handleChange}
+          fullWidth
+          required
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
+        {/* Currency Selector */}
+        <TextField
+          select
+          label="Currency"
+          name="currency"
+          value={form.currency}
+          onChange={handleChange}
+          fullWidth
+          required
+          margin="normal"
+        >
+          {currencies.map((currency) => (
+            <MenuItem key={currency.value} value={currency.value}>
+              {currency.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        {/* Submit Button */}
+        <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+          {editTransaction?._id ? "Update Transaction" : "Add Transaction"}
+        </Button>
+      </form>
+    </Box>
   );
 }
