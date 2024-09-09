@@ -84,37 +84,37 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
       <form onSubmit={handleSubmit}>
         {/* Amount Input */}
         <TextField
-          label="Amount"
-          name="amount"
-          value={form.amount}
-          onChange={handleChange}
-          type="number"
           fullWidth
-          required
+          label="Amount"
           margin="normal"
+          name="amount"
+          onChange={handleChange}
+          required
+          type="number"
+          value={form.amount}
         />
 
         {/* Description Input */}
         <TextField
-          label="Description"
-          name="description"
-          value={form.description}
-          onChange={handleChange}
           fullWidth
-          required
+          label="Description"
           margin="normal"
+          name="description"
+          onChange={handleChange}
+          required
+          value={form.description}
         />
 
         {/* Type Selector */}
         <TextField
-          select
-          label="Type"
-          name="type"
-          value={form.type}
-          onChange={handleChange}
           fullWidth
-          required
+          label="Type"
           margin="normal"
+          name="type"
+          onChange={handleChange}
+          required
+          select
+          value={form.type}
         >
           <MenuItem value="expense">Expense</MenuItem>
           <MenuItem value="income">Income</MenuItem>
@@ -123,40 +123,38 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
 
         {/* Category Selector */}
         <TextField
-          label="Category ID"
-          name="category_id"
-          value={form.category_id}
-          onChange={handleChange}
           fullWidth
-          required
+          label="Category ID"
           margin="normal"
+          name="category_id"
+          onChange={handleChange}
+          required
+          value={form.category_id}
         />
 
         {/* Date Input */}
         <TextField
+          fullWidth
+          InputLabelProps={{ shrink: true }}
           label="Date"
+          margin="normal"
           name="date"
+          onChange={handleChange}
+          required
           type="date"
           value={form.date}
-          onChange={handleChange}
-          fullWidth
-          required
-          margin="normal"
-          InputLabelProps={{
-            shrink: true,
-          }}
         />
 
         {/* Currency Selector */}
         <TextField
-          select
-          label="Currency"
-          name="currency"
-          value={form.currency}
-          onChange={handleChange}
           fullWidth
-          required
+          label="Currency"
           margin="normal"
+          name="currency"
+          onChange={handleChange}
+          required
+          select
+          value={form.currency}
         >
           {currencies.map((currency) => (
             <MenuItem key={currency.value} value={currency.value}>
@@ -166,7 +164,12 @@ export default function TransactionForm({ fetchTransactions, editTransaction }) 
         </TextField>
 
         {/* Submit Button */}
-        <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+        <Button
+          color="primary"
+          sx={{ mt: 2 }}
+          type="submit"
+          variant="contained"
+        >
           {editTransaction?._id ? "Update Transaction" : "Add Transaction"}
         </Button>
       </form>
