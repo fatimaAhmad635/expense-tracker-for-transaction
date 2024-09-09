@@ -1,4 +1,3 @@
-// src/components/CurrencyConverter.js
 import React, { useState, useEffect } from "react";
 
 export default function CurrencyConverter({ transactions }) {
@@ -12,13 +11,15 @@ export default function CurrencyConverter({ transactions }) {
         const res = await fetch("https://api.exchangerate-api.com/v4/latest/PKR");
         const data = await res.json();
 
-        // Validate that data.rates is an object
+        // Validate that data.rates is an object and sanitize it
         if (data && typeof data.rates === 'object') {
-          const sanitizedRates = Object.fromEntries(
-            Object.entries(data.rates).filter(([key, value]) =>
-              typeof key === 'string' && typeof value === 'number'
-            )
-          );
+          const validCurrencies = ["USD", "EUR", "GBP", "PKR", "INR", "JPY"]; // List of allowed currencies
+          const sanitizedRates = {};
+          validCurrencies.forEach((currency) => {
+            if (data.rates[currency] && typeof data.rates[currency] === 'number') {
+              sanitizedRates[currency] = data.rates[currency];
+            }
+          });
           setExchangeRates(sanitizedRates);
         } else {
           console.error("Invalid data format from API");
@@ -30,6 +31,7 @@ export default function CurrencyConverter({ transactions }) {
     fetchExchangeRates();
   }, []);
 
+  // Convert the amount to the selected currency
   const convertAmount = (amount, currency) => {
     const rate = exchangeRates[currency];
     return rate ? (amount * rate).toFixed(2) : amount;
@@ -39,8 +41,8 @@ export default function CurrencyConverter({ transactions }) {
     <div>
       <h3>Currency Converter</h3>
       <select
-        value={selectedCurrency}
         onChange={(e) => setSelectedCurrency(e.target.value)}
+        value={selectedCurrency} // Sorted alphabetically
       >
         {Object.keys(exchangeRates).map((currency) => (
           <option key={currency} value={currency}>
