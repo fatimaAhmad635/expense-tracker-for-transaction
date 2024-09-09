@@ -4,8 +4,12 @@
 
 # Expense Tracker
 
-The application features a user-friendly interface that allows users to easily add, edit, and delete expenses. Users can also view their expenses by category and track their spending over time. In addition, the project includes a login and registration system with authentication using JSON Web Token (JWT) to ensure that only authorized users can access the expense data. The users can create their own category, edit it and delete it as well. 
-# Hi, I'm Mohit! 👋
+The application has a user-friendly interface, making it easy for users to add, edit, and delete expenses. Users can categorize their expenses, view them by category, and track their spending over time. Additionally, the project features a login and registration system that uses JSON Web Token (JWT) for authentication, ensuring that only authorized users can access the expense data.
+
+Users can create, edit, and delete their own categories as well. We have also added two more features: a currency converter for managing expenses in different currencies, and a notification and alert system to keep users informed about important updates, such as approaching budget limits or due payments.
+
+# Hi, I'm Fatima Ahmad! 👋
+# I build this project along with my teammates Amna Zahid, Anas Khan
 
 
 ## Tech Stack
@@ -49,7 +53,7 @@ client will start at localhost:3000
 
 ## Feedback
 
-If you have any feedback, please reach out to us at bmohit162001@gmail.com
+If you have any feedback, please reach out to us at fa7227508@gmail.com and amnazahid399@gmail.com
 
 
 ## Contributing
@@ -57,4 +61,9 @@ If you have any feedback, please reach out to us at bmohit162001@gmail.com
 Contributions are always welcome!
 
 If you have any questions or need help getting started, feel free to open an issue on the GitHub repository. We look forward to seeing your contributions!
+
+## Note
+This project belongs to Mohit Email: (bmohit162001@gmail.com)
+We contributed to his project "Expense Tracker For Transaction"
+
 
