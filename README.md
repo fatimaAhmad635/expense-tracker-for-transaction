@@ -17,7 +17,7 @@ To get started with the Expense Tracker project, clone the repository and run th
 
 ### Clone the repository from GitHub:
 ```bash
-git clone [repository-url]
+git clone url
 ```
 
 ### Backend:
