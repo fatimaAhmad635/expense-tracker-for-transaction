@@ -20,7 +20,7 @@ To get started with the Expense Tracker project, clone the repository and run th
 git clone url
 ```
 
-### Backend:
+### Backend
 ```bash
 cd expense-tracker
 npm install
